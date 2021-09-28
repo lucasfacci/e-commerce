@@ -12,10 +12,10 @@ class Standard(models.Model):
 
 class Product(Standard):
     name = models.CharField(max_length=155)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='products/')
     description = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=7, decimal_places=2)
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField()
 
     class Meta:
         verbose_name = 'Product'
