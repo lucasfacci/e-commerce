@@ -1,9 +1,25 @@
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.fields import CharField
 
-from .models import Product
+from .models import Product, User
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = (
+            'id',
+            'name',
+            'image',
+            'description',
+            'price',
+            'quantity'
+        )
+        extra_kwargs = {
+            'quantity': {'write_only': True},
+        }
+
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -22,7 +38,8 @@ class UserSerializer(serializers.ModelSerializer):
             'password',
             'password_confirm',
             'first_name',
-            'last_name'
+            'last_name',
+            'products'
         )
         extra_kwargs = {
             'email': {'write_only': True, 'required': True},
@@ -40,22 +57,6 @@ class UserSerializer(serializers.ModelSerializer):
         if self.validated_data['password'] != self.validated_data['password_confirm']:
             raise serializers.ValidationError({'password': 'As senhas não são iguais.'})
         validated_data.pop('password_confirm')
-        if "password" in validated_data:
-            validated_data["password"] = make_password(validated_data["password"])
+        if 'password' in validated_data:
+            validated_data['password'] = make_password(validated_data['password'])
         return super().update(instance, validated_data)
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = (
-            'id',
-            'name',
-            'image',
-            'description',
-            'price',
-            'quantity'
-        )
-        extra_kwargs = {
-            'quantity': {'write_only': True},
-        }

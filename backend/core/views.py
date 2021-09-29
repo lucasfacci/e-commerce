@@ -1,12 +1,11 @@
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework import viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAdminUser
 
-from .models import Product
+from .models import Product, User
 from .permissions import IfAnonPostOnly, IsAdminUserOrReadOnly, IsTheUser
 from .serializers import ProductSerializer, UserSerializer
 
@@ -20,7 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
         IsTheUser,
     )
     serializer_class = UserSerializer
-    queryset = User.objects.all().order_by('id')
+    queryset = User.objects.all()
     
     def get_permissions(self):
         if self.action == 'list':

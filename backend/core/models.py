@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
@@ -24,3 +25,15 @@ class Product(Standard):
 
     def __str__(self):
         return f'{self.name}.'
+
+
+class User(AbstractUser):
+    products = models.ManyToManyField(Product, blank=True)
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = 'Users'
+        ordering = ['id']
+
+    def __str__(self):
+        return f'{self.username}.'
