@@ -1,10 +1,12 @@
-import './styles/App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+
+import { Home } from "./pages/Home";
 
 function App() {
   return (
-    <div className="App">
-      <div>E-commerce</div>
-    </div>
+    <BrowserRouter>
+      <Route path="/" exact component={Home} />
+    </BrowserRouter>
   );
 }
 
