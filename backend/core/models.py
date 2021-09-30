@@ -9,6 +9,18 @@ class Standard(models.Model):
 
     class Meta:
         abstract = True
+    
+
+class Category(Standard):
+    name = models.CharField(max_length=35)
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+        ordering = ['id']
+
+    def __str__(self):
+        return f'{self.name}.'
 
 
 class Product(Standard):
@@ -16,6 +28,7 @@ class Product(Standard):
     image = models.ImageField(upload_to='products/')
     description = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=7, decimal_places=2)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
     quantity = models.PositiveIntegerField()
 
     class Meta:
