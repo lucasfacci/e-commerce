@@ -1,0 +1,11 @@
+.menu-center {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.menu-right {
+    position: absolute;
+    right: 0;
+    top: 0;
+}

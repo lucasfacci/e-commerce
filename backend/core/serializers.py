@@ -1,8 +1,18 @@
 from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from rest_framework.fields import CharField
 
-from .models import Product, User
+from .models import Category, Product, User
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = (
+            'id',
+            'name'
+        )
 
 
 class ProductSerializer(serializers.ModelSerializer):

@@ -5,11 +5,33 @@ from rest_framework import viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAdminUser
 
-from .models import Product, User
+from .models import Category, Product, User
 from .permissions import IfAnonPostOnly, IsAdminUserOrReadOnly, IsTheUser
-from .serializers import ProductSerializer, UserSerializer
+from .serializers import CategorySerializer, ProductSerializer, UserSerializer
 
 # Create your views here.
+class CategoryViewSet(viewsets.ModelViewSet):
+    """
+    Categories
+    """
+    permission_classes = (
+        IsAdminUserOrReadOnly,
+    )
+    serializer_class = CategorySerializer
+    queryset = Category.objects.all()
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    """
+    Products
+    """
+    permission_classes = (
+        IsAdminUserOrReadOnly,
+    )
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
+
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     Users
@@ -27,17 +49,6 @@ class UserViewSet(viewsets.ModelViewSet):
         elif self.action == 'retrieve':
             self.permission_classes = [IsTheUser]
         return super(self.__class__, self).get_permissions()
-
-
-class ProductViewSet(viewsets.ModelViewSet):
-    """
-    Products
-    """
-    permission_classes = (
-        IsAdminUserOrReadOnly,
-    )
-    serializer_class = ProductSerializer
-    queryset = Product.objects.all()
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
