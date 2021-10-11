@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 
@@ -31,9 +31,9 @@ export const Main = props => {
         const menuItems = []
         for (let i = 0; i < list.length; i++) {
             menuItems.push(
-                <Menu.Item key={i}>
+                <Menu.Item key={ i }>
                     <Link to="/category">
-                        {list[i]}
+                        { list[i] }
                     </Link>
                 </Menu.Item>
             )
@@ -49,7 +49,7 @@ export const Main = props => {
                 </Link>
             </div>
             <Header style={{ background: "#fff" }}>
-                <Menu className="menu-center" mode="horizontal" style={{ borderBottom: 0 }}>
+                <Menu className="menu-center" mode="horizontal" defaultSelectedKeys={['1']} style={{ borderBottom: 0 }}>
                     <Menu.Item key="1">
                         <Link to="/">
                             Início
