@@ -1,8 +1,11 @@
 import { React, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Row, Col, Input, Space } from 'antd';
+import { ShoppingCartOutlined } from '@ant-design/icons';
 
 import '../styles/main.css';
+
+const { Search } = Input;
 const { Header, Footer, Sider, Content } = Layout;
 
 export const Main = props => {
@@ -41,12 +44,42 @@ export const Main = props => {
         return menuItems
     }
 
+    const onSearch = value => console.log(value);
+
     return (
         <Layout>
-            <div style={{ background: "#fff", textAlign: "center" }}>
-                <Link to="/">
-                    <b style={{ fontSize: '20px', color: "black" }}>E-commerce</b>
-                </Link>
+            <div style={{ backgroundColor: '#fff' }}>
+                <Row justify="space-between" style={{ margin: '3%' }}>
+                    <Col>
+                        <Space direction="vertical">
+                            <Search placeholder="Buscar" allowClear onSearch={onSearch} style={{ width: 200 }} />
+                        </Space>
+                    </Col>
+                    <Col>
+                        <Link to="/">
+                            <b style={{ fontSize: "20px", color: "black" }}>E-commerce</b>
+                        </Link>
+                    </Col>
+                    <Col style={{ width: 200 }}>
+                        <Row>
+                            <Col span={12}>
+                                <Link to="/register" style={{ color: "black" }}>
+                                    Cadastre-se
+                                </Link>
+                            </Col>
+                            <Col span={7}>
+                                <Link to="/login" style={{ color: "black" }}>
+                                    Login
+                                </Link>
+                            </Col>
+                            <Col span={3}>
+                                <Link to="/" style={{ fontSize: "16px", color: "black" }}>
+                                    <ShoppingCartOutlined />
+                                </Link>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
             </div>
             <Header style={{ background: "#fff" }}>
                 <Menu className="menu-center" mode="horizontal" defaultSelectedKeys={['1']} style={{ borderBottom: 0 }}>
@@ -60,11 +93,6 @@ export const Main = props => {
                     </Menu.Item>
                     <Menu.Item key="3">
                         Contato
-                    </Menu.Item>
-                    <Menu.Item key="4" style={{ position: 'absolute', top: 0, right: 0 }}>
-                        <Link to="/login">
-                            Login
-                        </Link>
                     </Menu.Item>
                 </Menu>
             </Header>
