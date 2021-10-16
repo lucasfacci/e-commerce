@@ -1,14 +1,18 @@
 from django.contrib import admin
 
-from .models import Category, Product, User
+from .models import Category, SubCategory, Product, User
 
 # Register your models here.
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('name', 'created', 'updated')
+
+
+class SubCategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'category', 'created', 'updated')
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'price', 'category', 'quantity', 'created', 'updated', 'active')
+    list_display = ('name', 'description', 'price', 'category', 'subCategory', 'quantity', 'created', 'updated', 'active')
 
 
 class UserAdmin(admin.ModelAdmin):
@@ -17,5 +21,6 @@ class UserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(SubCategory, SubCategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(User, UserAdmin)

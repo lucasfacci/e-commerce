@@ -15,7 +15,7 @@ export const Home = () => {
         .then(response => response.json())
         .then(result => {
             for (let i = 0; i < result.results.length; i++) {
-                setObject(object => [...object, [[result.results[i].name], [result.results[i].image], [result.results[i].price]]])
+                setObject(object => [...object, result.results[i]])
             }
         })
         .catch(error => console.log(error))
@@ -26,7 +26,9 @@ export const Home = () => {
             <Row>
                 {
                     object.map(item => {
-                        return <Col xs={24} xl={6}><Product alt={item[0]} src={ item[1] } name={ item[0] } price={ item[2] } /></Col>
+                        return <Col xs={24} xl={6} key={ item.id }>
+                                    <Product alt={ item.name } src={ item.image } name={ item.name } price={ item.price } />
+                                </Col>
                     })
                 }
             </Row>

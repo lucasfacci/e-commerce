@@ -5,9 +5,9 @@ from rest_framework import viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAdminUser
 
-from .models import Category, Product, User
+from .models import Category, SubCategory, Product, User
 from .permissions import IfAnonPostOnly, IsAdminUserOrReadOnly, IsTheUser
-from .serializers import CategorySerializer, ProductSerializer, UserSerializer
+from .serializers import CategorySerializer, SubCategorySerializer, ProductSerializer, UserSerializer
 
 # Create your views here.
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -19,6 +19,17 @@ class CategoryViewSet(viewsets.ModelViewSet):
     )
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
+
+
+class SubCategoryViewSet(viewsets.ModelViewSet):
+    """
+    SubCategories
+    """
+    permission_classes = (
+        IsAdminUserOrReadOnly,
+    )
+    serializer_class = SubCategorySerializer
+    queryset = SubCategory.objects.all()
 
 
 class ProductViewSet(viewsets.ModelViewSet):

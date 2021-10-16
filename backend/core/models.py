@@ -23,12 +23,26 @@ class Category(Standard):
         return f'{self.name}.'
 
 
+class SubCategory(Standard):
+    name = models.CharField(max_length=35)
+    category = models.ForeignKey(Category, related_name='subCategories', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'SubCategory'
+        verbose_name_plural = 'SubCategories'
+        ordering = ['id']
+
+    def __str__(self):
+        return f'{self.name}.'
+
+
 class Product(Standard):
     name = models.CharField(max_length=155)
     image = models.ImageField(upload_to='products/')
     description = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=7, decimal_places=2)
-    category = models.ForeignKey(Category, on_delete=models.PROTECT)
+    category = models.ForeignKey(Category, related_name='products', on_delete=models.PROTECT)
+    subCategory = models.ForeignKey(SubCategory, related_name='products', on_delete=models.PROTECT, blank=True, null=True)
     quantity = models.PositiveIntegerField()
 
     class Meta:

@@ -3,33 +3,7 @@ from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.fields import CharField
 
-from .models import Category, Product, User
-
-
-class CategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Category
-        fields = (
-            'id',
-            'name'
-        )
-
-
-class ProductSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Product
-        fields = (
-            'id',
-            'name',
-            'image',
-            'description',
-            'price',
-            'category',
-            'quantity'
-        )
-        extra_kwargs = {
-            'quantity': {'write_only': True},
-        }
+from .models import SubCategory, Category, Product, User
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -71,3 +45,54 @@ class UserSerializer(serializers.ModelSerializer):
         if 'password' in validated_data:
             validated_data['password'] = make_password(validated_data['password'])
         return super().update(instance, validated_data)
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = (
+            'id',
+            'name',
+            'image',
+            'description',
+            'price',
+            'category',
+            'subCategory',
+            'quantity'
+        )
+        extra_kwargs = {
+            'quantity': {'write_only': True},
+        }
+
+
+class SubCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SubCategory
+        fields = (
+            'id',
+            'name',
+            'category'
+        )
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    # Nested Relationship
+    subCategories = SubCategorySerializer(many=True, read_only=True)
+
+    # # HyperLinked Related Field
+    # subCategories = serializers.HyperlinkedRelatedField(
+    #     many=True,
+    #     read_only=True,
+    #     view_name='subCategory-detail'
+    # )
+
+    # # Primary Key Related Field
+    # subCategories = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = (
+            'id',
+            'name',
+            'subCategories'
+        )

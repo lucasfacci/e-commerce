@@ -10,7 +10,7 @@ const { Header, Footer, Sider, Content } = Layout;
 
 export const Main = props => {
 
-    const [list, setList] = useState([]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         listCategories()
@@ -24,7 +24,7 @@ export const Main = props => {
         .then(response => response.json())
         .then(result => {
             for (let i = 0; i < result.results.length; i++) {
-                setList(list => [...list, result.results[i].name])
+                setCategories(categories => [...categories, result.results[i]])
             }
         })
         .catch(error => console.log(error))
@@ -32,16 +32,38 @@ export const Main = props => {
 
     const createMenuItems = () => {
         const menuItems = []
-        for (let i = 0; i < list.length; i++) {
+        for (let i = 0; i < categories.length; i++) {
             menuItems.push(
-                <Menu.Item key={ i }>
+                <Menu.Item key={ categories[i].id }>
                     <Link to="/category">
-                        { list[i] }
+                        { categories[i].name }
                     </Link>
                 </Menu.Item>
             )
         }
         return menuItems
+    }
+
+    const createSubMenuItems = () => {
+        const subMenuItems = []
+        for (let i = 0; i < categories.length; i++) {
+            if (categories[i].subCategories.length > 0) {
+                subMenuItems.push(
+                    <Menu.SubMenu key={ 'sub'+categories[i].id } title={ categories[i].name }>
+                        {
+                            categories[i].subCategories.map(subCategory => {
+                                return <Menu.Item key={ subCategory.id }>{ subCategory.name }</Menu.Item>
+                            })
+                        }
+                    </Menu.SubMenu>
+                )
+            } else {
+                subMenuItems.push(
+                    <Menu.Item key={ 'sub'+categories[i].id }>{ categories[i].name }</Menu.Item>
+                )
+            }
+        }
+        return subMenuItems
     }
 
     const onSearch = value => console.log(value);
@@ -62,12 +84,12 @@ export const Main = props => {
                     </Col>
                     <Col style={{ width: 200 }}>
                         <Row>
-                            <Col span={12}>
+                            <Col span={13}>
                                 <Link to="/register" style={{ color: "black" }}>
                                     Cadastre-se
                                 </Link>
                             </Col>
-                            <Col span={7}>
+                            <Col span={8}>
                                 <Link to="/login" style={{ color: "black" }}>
                                     Login
                                 </Link>
@@ -82,17 +104,21 @@ export const Main = props => {
                 </Row>
             </div>
             <Header style={{ background: "#fff" }}>
-                <Menu className="menu-center" mode="horizontal" defaultSelectedKeys={['1']} style={{ borderBottom: 0 }}>
-                    <Menu.Item key="1">
+                <Menu className="menu-center" mode="horizontal" defaultSelectedKeys={['fixed1']} style={{ borderBottom: 0 }}>
+                    <Menu.Item key="fixed1">
                         <Link to="/">
                             Início
                         </Link>
                     </Menu.Item>
-                    <Menu.Item key="2">
-                        Produtos
-                    </Menu.Item>
-                    <Menu.Item key="3">
-                        Contato
+                    <Menu.SubMenu key="fixedSub1" title="Produtos">
+                        {
+                            createSubMenuItems()
+                        }
+                    </Menu.SubMenu>
+                    <Menu.Item key="fixed2">
+                        <Link to="/">
+                            Contato
+                        </Link>
                     </Menu.Item>
                 </Menu>
             </Header>
