@@ -4,9 +4,10 @@ import { Layout, Menu, Row, Col, Input, Space } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 
 import '../styles/main.css';
+import { SiderBar } from '../components/SiderBar';
 
 const { Search } = Input;
-const { Header, Footer, Sider, Content } = Layout;
+const { Header, Footer, Content } = Layout;
 
 export const Main = props => {
 
@@ -68,6 +69,14 @@ export const Main = props => {
 
     const onSearch = value => console.log(value);
 
+    function HasSiderBar(props) {
+        if (props.hassiderbar === 'Login' || props.hassiderbar === 'Register') {
+            return null
+        } else {
+            return <SiderBar createmenuitems={createMenuItems()} />
+        }
+    }
+
     return (
         <Layout>
             <div style={{ backgroundColor: '#fff' }}>
@@ -123,16 +132,7 @@ export const Main = props => {
                 </Menu>
             </Header>
             <Layout>
-                <Sider width={200}>
-                    <Menu
-                        mode="inline"
-                        style={{ height: "100%", borderRight: 0 }}
-                    >
-                        {
-                            createMenuItems()
-                        }
-                    </Menu>
-                </Sider>
+                <HasSiderBar hassiderbar={props.children.type.name} />
                 <Content
                     style={{
                         padding: 24,
