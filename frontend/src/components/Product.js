@@ -7,9 +7,9 @@ export const Product = props => {
         <Card
             hoverable
             style={{ width: 240, height: 350 }}
-            cover={<img alt={ props.alt } src={ props.src } />}
+            cover={<img alt={props.alt} src={props.src} />}
         >
-            <b><Meta title={ props.name } description={ `R$${props.price}` } /></b>
+            <b><Meta title={props.name} description={`R$${props.price}`} /></b>
         </Card>
     )
 }
