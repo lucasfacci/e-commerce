@@ -45,6 +45,14 @@ export const Register = () => {
         console.log('Erro:', errorInfo);
     };
 
+    /* eslint-disable no-template-curly-in-string */
+    const validateMessages = {
+        required: '${label} é necessário preencher o campo!',
+        types: {
+            email: '${label} não é um email válido!',
+        },
+    };
+
     return (
         <div>
             <Form
@@ -55,49 +63,66 @@ export const Register = () => {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
+                validateMessages={validateMessages}
                 >
                 <Form.Item
-                    label="Nome de usuário"
+                    label="Nome de usuário:"
                     name="username"
-                    rules={[{ required: true, message: 'Insira o nome de usuário!' }]}
+                    rules={[{ required: true }]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label="Email"
+                    label="Email:"
                     name="email"
-                    rules={[{ required: true, message: 'Insira o email!' }]}
+                    rules={[{ required: true, type: 'email' }]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label="Primeiro nome"
+                    label="Primeiro nome:"
                     name="first_name"
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label="Sobrenome"
+                    label="Sobrenome:"
                     name="last_name"
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item
-                    label="Senha"
+                    label="Senha:"
                     name="password"
-                    rules={[{ required: true, message: 'Insira a senha!' }]}
+                    hasFeedback
+                    rules={[{ required: true }]}
                 >
                     <Input.Password />
                 </Form.Item>
 
                 <Form.Item
-                    label="Confirmação"
+                    label="Confirmação:"
                     name="password_confirm"
-                    rules={[{ required: true, message: 'Insira a confirmação da senha!' }]}
+                    hasFeedback
+                    dependencies={['password']}
+                    rules={[
+                        {
+                        required: true
+                        },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('password') === value) {
+                                    return Promise.resolve();
+                                }
+                    
+                                return Promise.reject(new Error('As senhas não correspondem!'));
+                            },
+                        }),
+                    ]}
                 >
                     <Input.Password />
                 </Form.Item>
