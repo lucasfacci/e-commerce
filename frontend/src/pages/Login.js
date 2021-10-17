@@ -6,7 +6,6 @@ export const Login = () => {
     const history = useHistory();
 
     const onFinish = values => {
-        console.log(values)
         fetch('http://localhost:8000/api-token-auth/', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
