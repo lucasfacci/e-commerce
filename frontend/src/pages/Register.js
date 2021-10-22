@@ -1,8 +1,9 @@
-import { useHistory } from "react-router-dom";
-import { Form, Input, Button } from 'antd';
+import { useHistory } from 'react-router-dom';
+import { Form, Input, Button, Row, Col } from 'antd';
 
 export const Register = () => {
 
+    const [form] = Form.useForm();
     const history = useHistory();
 
     const onFinish = values => {
@@ -10,7 +11,6 @@ export const Register = () => {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username: values.username,
                 email: values.email,
                 first_name: values.first_name,
                 last_name: values.last_name,
@@ -24,7 +24,7 @@ export const Register = () => {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
-                        username: values.username,
+                        email: values.email,
                         password: values.password
                     }),
                 })
@@ -47,92 +47,90 @@ export const Register = () => {
 
     /* eslint-disable no-template-curly-in-string */
     const validateMessages = {
-        required: '${label} é necessário preencher o campo!',
+        required: 'Este campo é obrigatório!',
         types: {
-            email: '${label} não é um email válido!',
+            email: 'Este email não é válido!',
         },
     };
 
     return (
-        <div>
-            <Form
-                name="basic"
-                labelCol={{ span: 8 }}
-                wrapperCol={{ span: 16 }}
-                initialValues={{ remember: true }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete="off"
-                validateMessages={validateMessages}
-                >
-                <Form.Item
-                    label="Nome de usuário:"
-                    name="username"
-                    rules={[{ required: true }]}
-                >
-                    <Input />
-                </Form.Item>
+        <Row justify="center">
+            <Col style={{ width: 400 }}>
+                <Form
+                    form={form}
+                    layout="vertical"
+                    name="register"
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    initialValues={{
+                        remember: true
+                    }}
+                    validateMessages={validateMessages}
+                    scrollToFirstError
+                    >
+                    <Form.Item
+                        label="Email:"
+                        name="email"
+                        rules={[{ required: true, type: 'email' }]}
+                    >
+                        <Input placeholder="ex.: seunome@email.com" />
+                    </Form.Item>
 
-                <Form.Item
-                    label="Email:"
-                    name="email"
-                    rules={[{ required: true, type: 'email' }]}
-                >
-                    <Input />
-                </Form.Item>
+                    <Form.Item
+                        label="Nome:"
+                        name="first_name"
+                        rules={[{ required: true }]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-                <Form.Item
-                    label="Primeiro nome:"
-                    name="first_name"
-                >
-                    <Input />
-                </Form.Item>
+                    <Form.Item
+                        label="Sobrenome:"
+                        name="last_name"
+                        rules={[{ required: true }]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-                <Form.Item
-                    label="Sobrenome:"
-                    name="last_name"
-                >
-                    <Input />
-                </Form.Item>
+                    <Form.Item
+                        label="Senha:"
+                        name="password"
+                        hasFeedback
+                        rules={[{ required: true }]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
 
-                <Form.Item
-                    label="Senha:"
-                    name="password"
-                    hasFeedback
-                    rules={[{ required: true }]}
-                >
-                    <Input.Password />
-                </Form.Item>
-
-                <Form.Item
-                    label="Confirmação:"
-                    name="password_confirm"
-                    hasFeedback
-                    dependencies={['password']}
-                    rules={[
-                        {
-                        required: true
-                        },
-                        ({ getFieldValue }) => ({
-                            validator(_, value) {
-                                if (!value || getFieldValue('password') === value) {
-                                    return Promise.resolve();
-                                }
-                    
-                                return Promise.reject(new Error('As senhas não correspondem!'));
+                    <Form.Item
+                        label="Confirmação:"
+                        name="password_confirm"
+                        hasFeedback
+                        dependencies={['password']}
+                        rules={[
+                            {
+                            required: true
                             },
-                        }),
-                    ]}
-                >
-                    <Input.Password />
-                </Form.Item>
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue('password') === value) {
+                                        return Promise.resolve();
+                                    }
+                        
+                                    return Promise.reject(new Error('As senhas não correspondem!'));
+                                },
+                            }),
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
 
-                <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                    <Button type="primary" htmlType="submit">
-                    Enviar
-                    </Button>
-                </Form.Item>
-            </Form>
-        </div>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+                            Cadastre-se
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Col>
+        </Row>
     )
 }

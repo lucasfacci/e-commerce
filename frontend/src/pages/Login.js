@@ -1,6 +1,8 @@
-import { useHistory } from "react-router-dom";
-import { Form, Input, Button, Row, Col, Card } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Link, useHistory } from "react-router-dom";
+import { Form, Input, Button, Row, Col } from 'antd';
+import { MailOutlined, LockOutlined } from '@ant-design/icons';
+
+import '../styles/login.css';
 
 export const Login = () => {
 
@@ -11,7 +13,7 @@ export const Login = () => {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                username: values.username,
+                email: values.email,
                 password: values.password
             }),
         })
@@ -39,62 +41,51 @@ export const Login = () => {
     };
 
     return (
-        <Row type="flex" justify="center" style={{minHeight: '100vh'}}>
-            <Col>
-                <Card>
-                    <Form
-                        name="basic"
-                        layout="vertical"
-                        requiredMark="optional"
-                        labelCol={{
-                            span: 8,
-                        }}
-                        wrapperCol={{
-                            span: 16,
-                        }}
-                        initialValues={{
-                            remember: true,
-                        }}
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                        autoComplete="off"
-                        validateMessages={validateMessages}
-                        >
-                        <Form.Item
-                            name="username"
-                            rules={[
-                            {
-                                required: true,
-                                message: 'Nome de usuário: é necessário preencher o campo!',
-                            },
-                            ]}
-                        >
-                            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Nome de usuário" />
-                        </Form.Item>
+        <Row justify="center">
+            <Col style={{ width: 400 }}>
+                <Form
+                    name="basic"
+                    layout="vertical"
+                    requiredMark="optional"
+                    initialValues={{
+                        remember: true,
+                    }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                    validateMessages={validateMessages}
+                    >
+                    <Form.Item
+                        name="email"
+                        rules={[
+                        {
+                            required: true,
+                            type: 'email',
+                            message: 'É necessário preencher este campo!'
+                        },
+                        ]}
+                    >
+                        <Input prefix={<MailOutlined style={{ color: "#B3B3B3" }} className="site-form-item-icon" />} placeholder="Email" />
+                    </Form.Item>
 
-                        <Form.Item
-                            name="password"
-                            rules={[
-                            {
-                                required: true,
-                                message: 'Senha: é necessário preencher o campo!',
-                            },
-                            ]}
-                        >
-                            <Input.Password prefix={<LockOutlined className="site-form-item-icon" />} placeholder="Senha" />
-                        </Form.Item>
-                        <Form.Item
-                            wrapperCol={{
-                            offset: 8,
-                            span: 16,
-                            }}
-                        >
-                            <Button type="primary" htmlType="submit">
-                                Enviar
-                            </Button>
-                        </Form.Item>
-                    </Form>
-                </Card>
+                    <Form.Item
+                        name="password"
+                        rules={[
+                        {
+                            required: true,
+                            message: 'É necessário preencher este campo!',
+                        },
+                        ]}
+                    >
+                        <Input.Password prefix={<LockOutlined style={{ color: "#B3B3B3" }} className="site-form-item-icon" />} placeholder="Senha" />
+                    </Form.Item>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit" className="login-form-button">
+                            Acessar
+                        </Button>
+                        Não possui uma conta? <Link to="/register">Cadastre-se!</Link>
+                    </Form.Item>
+                </Form>
             </Col>
         </Row>
     )
