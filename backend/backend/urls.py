@@ -17,13 +17,13 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework.authtoken import views
 
+from core.views import CustomObtainAuthToken
 from core.urls import router
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api-token-auth/', views.obtain_auth_token),
+    path('api-token-auth/', CustomObtainAuthToken.as_view()),
     path('auth/', include('rest_framework.urls')),
     path('', include(router.urls))
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

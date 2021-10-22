@@ -16,7 +16,7 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name')
+    list_display = ('email', 'first_name', 'last_name')
     filter_horizontal = ('products',)
 
 
