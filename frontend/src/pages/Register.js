@@ -49,7 +49,7 @@ export const Register = () => {
     const validateMessages = {
         required: 'Este campo é obrigatório!',
         types: {
-            email: 'Este email não é válido!',
+            email: 'O email inserido não é válido!',
         },
     };
 
@@ -71,7 +71,9 @@ export const Register = () => {
                     <Form.Item
                         label="Email:"
                         name="email"
-                        rules={[{ required: true, type: 'email' }]}
+                        rules={[
+                            { required: true, type: 'email' }
+                        ]}
                     >
                         <Input placeholder="ex.: seunome@email.com" />
                     </Form.Item>
@@ -79,7 +81,9 @@ export const Register = () => {
                     <Form.Item
                         label="Nome:"
                         name="first_name"
-                        rules={[{ required: true }]}
+                        rules={[
+                            { required: true }
+                        ]}
                     >
                         <Input />
                     </Form.Item>
@@ -87,7 +91,9 @@ export const Register = () => {
                     <Form.Item
                         label="Sobrenome:"
                         name="last_name"
-                        rules={[{ required: true }]}
+                        rules={[
+                            { required: true }
+                        ]}
                     >
                         <Input />
                     </Form.Item>
@@ -96,7 +102,9 @@ export const Register = () => {
                         label="Senha:"
                         name="password"
                         hasFeedback
-                        rules={[{ required: true }]}
+                        rules={[
+                            { required: true }
+                        ]}
                     >
                         <Input.Password />
                     </Form.Item>

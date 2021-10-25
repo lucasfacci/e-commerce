@@ -1,34 +1,22 @@
+
+import { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Form, Input, Button, Row, Col } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
+import { AuthContext } from "../App";
 import '../styles/login.css';
 
 export const Login = () => {
 
     const history = useHistory();
+    const { user, signIn } = useContext(AuthContext)
 
     const onFinish = values => {
-        fetch('http://localhost:8000/api-token-auth/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: values.email,
-                password: values.password
-            }),
-        })
-        .then(response => {
-            if (response.status === 200) {
-                return response.json()
-            } else {
-                throw new Error('Something went wrong');
-            }
-        })
-        .then(result => {
-            localStorage.setItem('token', result.token)
-            history.push('/');
-        })
-        .catch(error => console.log(error))
+        if (!user) {
+            signIn(values)
+        }
+        history.push('/');
     }
 
     const onFinishFailed = errorInfo => {
@@ -37,7 +25,10 @@ export const Login = () => {
 
     /* eslint-disable no-template-curly-in-string */
     const validateMessages = {
-        required: '${label} é necessário preencher o campo!',
+        required: 'É necessário preencher este campo!',
+        types: {
+            email: 'O email inserido não é válido!',
+        },
     };
 
     return (
@@ -58,11 +49,10 @@ export const Login = () => {
                     <Form.Item
                         name="email"
                         rules={[
-                        {
-                            required: true,
-                            type: 'email',
-                            message: 'É necessário preencher este campo!'
-                        },
+                            {
+                                required: true,
+                                type: 'email'
+                            },
                         ]}
                     >
                         <Input prefix={<MailOutlined style={{ color: "#B3B3B3" }} className="site-form-item-icon" />} placeholder="Email" />
@@ -71,10 +61,7 @@ export const Login = () => {
                     <Form.Item
                         name="password"
                         rules={[
-                        {
-                            required: true,
-                            message: 'É necessário preencher este campo!',
-                        },
+                            { required: true }
                         ]}
                     >
                         <Input.Password prefix={<LockOutlined style={{ color: "#B3B3B3" }} className="site-form-item-icon" />} placeholder="Senha" />

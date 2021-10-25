@@ -1,10 +1,9 @@
-import { React, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Row, Col, Input, Space } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 
 import '../styles/main.css';
-import { SiderBar } from '../components/SiderBar';
 
 const { Search } = Input;
 const { Header, Footer, Content } = Layout;
@@ -31,20 +30,6 @@ export const Main = props => {
         .catch(error => console.log(error))
     }
 
-    const createMenuItems = () => {
-        const menuItems = []
-        for (let i = 0; i < categories.length; i++) {
-            menuItems.push(
-                <Menu.Item key={ categories[i].id }>
-                    <Link to="/category">
-                        { categories[i].name }
-                    </Link>
-                </Menu.Item>
-            )
-        }
-        return menuItems
-    }
-
     const createSubMenuItems = () => {
         const subMenuItems = []
         for (let i = 0; i < categories.length; i++) {
@@ -68,14 +53,6 @@ export const Main = props => {
     }
 
     const onSearch = value => console.log(value);
-
-    function HasSiderBar(props) {
-        if (props.hassiderbar === 'Login' || props.hassiderbar === 'Register') {
-            return null
-        } else {
-            return <SiderBar createmenuitems={createMenuItems()} />
-        }
-    }
 
     return (
         <Layout>
@@ -132,7 +109,6 @@ export const Main = props => {
                 </Menu>
             </Header>
             <Layout>
-                <HasSiderBar hassiderbar={props.children.type.name} />
                 <Content
                     style={{
                         padding: 24,
