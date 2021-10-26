@@ -8,7 +8,7 @@ export const Register = () => {
 
     const [form] = Form.useForm();
     const history = useHistory();
-    const { user } = useContext(AuthContext)
+    const { user, signIn } = useContext(AuthContext)
 
     useEffect(() => {
         if (user !== undefined) {
@@ -28,25 +28,9 @@ export const Register = () => {
                 password_confirm: values.password_confirm
             }),
         })
-        .then(response => {
-            if (response.status === 201) {
-                fetch('http://127.0.0.1:8000/api-token-auth/', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        email: values.email,
-                        password: values.password
-                    }),
-                })
-                .then(response => response.json())
-                .then(result => {
-                    localStorage.setItem('token', result.token)
-                    history.push('/');
-                })
-                .catch(error => console.log(error))
-            } else {
-                throw new Error('Something went wrong');
-            }
+        .then(() => {
+            signIn(values)
+            history.push('/')
         })
         .catch(error => console.log(error))
     };
