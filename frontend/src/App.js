@@ -14,12 +14,21 @@ function App() {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("token");
-    if (loggedInUser) {
-      const foundUser = loggedInUser;
-      setUser(foundUser);
+    const userToken = localStorage.getItem("token")
+    const userId = localStorage.getItem("user_id")
+    const userFirstName = localStorage.getItem("first_name")
+
+    if (userToken !== null && userId !== null && userFirstName !== null) {
+      setUser({
+        token: userToken,
+        user_id: userId,
+        first_name: userFirstName
+      })
+    } else {
+      setUser()
+      localStorage.clear()
     }
-  }, [user]);
+  }, []);
 
   const signIn = values => {
     fetch('http://localhost:8000/api-token-auth/', {
@@ -34,7 +43,7 @@ function App() {
       if (response.status === 200) {
         return response.json()
       } else {
-        throw new Error('Something went wrong');
+        throw new Error('Something went wrong')
       }
     })
     .then(result => {
@@ -44,18 +53,20 @@ function App() {
         first_name: result.first_name
       })
       localStorage.setItem('token', result.token)
+      localStorage.setItem('user_id', result.user_id)
+      localStorage.setItem('first_name', result.first_name)
     })
     .catch(error => console.log(error))
   }
 
   const logout = () => {
-    setUser({})
+    setUser()
     localStorage.clear()
   };
 
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{ user, signIn }}>
+      <AuthContext.Provider value={{ user, signIn, logout }}>
         <Switch>
           <Route exact path="/">
             <Main>

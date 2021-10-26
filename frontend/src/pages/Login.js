@@ -1,5 +1,5 @@
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { Form, Input, Button, Row, Col } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
@@ -12,8 +12,14 @@ export const Login = () => {
     const history = useHistory();
     const { user, signIn } = useContext(AuthContext)
 
+    useEffect(() => {
+        if (user !== undefined) {
+            history.push('/')
+        }
+    })
+
     const onFinish = values => {
-        if (!user) {
+        if (user === undefined) {
             signIn(values)
         }
         history.push('/');

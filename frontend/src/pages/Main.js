@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Layout, Menu, Row, Col, Input, Space } from 'antd';
 import { ShoppingCartOutlined } from '@ant-design/icons';
 
+import { AuthContext } from "../App";
 import '../styles/main.css';
 
 const { Search } = Input;
@@ -11,6 +12,7 @@ const { Header, Footer, Content } = Layout;
 export const Main = props => {
 
     const [categories, setCategories] = useState([]);
+    const { user, logout } = useContext(AuthContext)
 
     useEffect(() => {
         listCategories()
@@ -69,23 +71,39 @@ export const Main = props => {
                         </Link>
                     </Col>
                     <Col style={{ width: 200 }}>
-                        <Row>
-                            <Col span={13}>
-                                <Link to="/register" style={{ color: "black" }}>
-                                    Cadastre-se
-                                </Link>
-                            </Col>
-                            <Col span={8}>
-                                <Link to="/login" style={{ color: "black" }}>
-                                    Login
-                                </Link>
-                            </Col>
-                            <Col span={3}>
-                                <Link to="/" style={{ fontSize: "16px", color: "black" }}>
-                                    <ShoppingCartOutlined />
-                                </Link>
-                            </Col>
-                        </Row>
+                        {user === undefined ?
+                            <Row>
+                                <Col span={13}>
+                                    <Link to="/register" style={{ color: "black" }}>
+                                        Cadastre-se
+                                    </Link>
+                                </Col>
+                                <Col span={8}>
+                                    <Link to="/login" style={{ color: "black" }}>
+                                        Login
+                                    </Link>
+                                </Col>
+                                <Col span={3}>
+                                    <Link to="/" style={{ fontSize: "16px", color: "black" }}>
+                                        <ShoppingCartOutlined />
+                                    </Link>
+                                </Col>
+                            </Row>
+                            :
+                            <Row>
+                                <Col span={13}>
+                                    Minha conta
+                                </Col>
+                                <Col span={7} style={{ cursor: "pointer" }} onClick={logout}>
+                                    Sair
+                                </Col>
+                                <Col span={4}>
+                                    <Link to="/" style={{ fontSize: "16px", color: "black" }}>
+                                        <ShoppingCartOutlined />
+                                    </Link>
+                                </Col>
+                            </Row>
+                        }
                     </Col>
                 </Row>
             </div>

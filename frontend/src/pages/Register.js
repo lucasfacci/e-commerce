@@ -1,10 +1,20 @@
+import { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Form, Input, Button, Row, Col } from 'antd';
+
+import { AuthContext } from "../App";
 
 export const Register = () => {
 
     const [form] = Form.useForm();
     const history = useHistory();
+    const { user } = useContext(AuthContext)
+
+    useEffect(() => {
+        if (user !== undefined) {
+            history.push('/')
+        }
+    })
 
     const onFinish = values => {
         fetch('http://127.0.0.1:8000/users/', {
