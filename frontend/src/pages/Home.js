@@ -27,8 +27,8 @@ export const Home = () => {
                 {
                     object.map(item => {
                         return (
-                            <Col xs={24} sm={12} md={12} lg={8} xl={6} xxl={4} key={ item.id } style={{  }}>
-                                <Product alt={ item.name } src={ item.image } name={ item.name } price={ item.price } />
+                            <Col xs={24} sm={12} md={12} lg={8} xl={6} xxl={4} key={item.id}>
+                                <Product alt={item.name} src={item.image} name={item.name} price={item.price} />
                             </Col>
                         ) 
                     })

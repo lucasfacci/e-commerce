@@ -5,7 +5,6 @@ import { Form, Input, Button, Row, Col } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
 
 import { AuthContext } from "../App";
-import '../styles/login.css';
 
 export const Login = () => {
 
@@ -31,9 +30,9 @@ export const Login = () => {
 
     /* eslint-disable no-template-curly-in-string */
     const validateMessages = {
-        required: 'É necessário preencher este campo!',
+        required: 'É NECESSÁRIO PREENCHER ESTE CAMPO!',
         types: {
-            email: 'O email inserido não é válido!',
+            email: 'O EMAIL INSERIDO NÃO É VÁLIDO!',
         },
     };
 
@@ -73,10 +72,10 @@ export const Login = () => {
                         <Input.Password prefix={<LockOutlined style={{ color: "#B3B3B3" }} className="site-form-item-icon" />} placeholder="Senha" />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" className="login-form-button">
-                            Acessar
+                        <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
+                            ACESSAR
                         </Button>
-                        Não possui uma conta? <Link to="/register">Cadastre-se!</Link>
+                        NÃO POSSUI UMA CONTA? <Link to="/register">CADASTRE-SE!</Link>
                     </Form.Item>
                 </Form>
             </Col>

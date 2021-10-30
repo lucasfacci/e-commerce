@@ -4,8 +4,43 @@
     justify-content: center;
 }
 
-.menu-right {
-    position: absolute;
-    right: 0;
-    top: 0;
+.default-font-family {
+    font-family: 'Lucida Console', 'Courier New', monospace;
+}
+
+.navbar-bg-color {
+    background-color: #FFFFFF;
+}
+
+.navbar-contents-margin {
+    margin: 3%;
+}
+
+.navbar-width {
+    width: 200px;
+}
+
+.navbar-text {
+    color: #000000;
+}
+
+.navbar-text:hover {
+    color: #40A9FF;
+    cursor: pointer;
+}
+
+.text-website-name {
+    font-size: 20px;
+    color: #000000;
+}
+
+.text-color-black {
+    color: #000000;
+}
+
+.content-style {
+    padding: 24px;
+    margin: 0px;
+    min-height: 280px;
+    background-color: #FFFFFF;
 }

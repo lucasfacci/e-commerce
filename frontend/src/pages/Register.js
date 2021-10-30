@@ -41,9 +41,9 @@ export const Register = () => {
 
     /* eslint-disable no-template-curly-in-string */
     const validateMessages = {
-        required: 'Este campo é obrigatório!',
+        required: 'ESTE CAMPO É OBRIGATÓRIO!',
         types: {
-            email: 'O email inserido não é válido!',
+            email: 'O EMAIL INSERIDO NÃO É VÁLIDO!',
         },
     };
 
@@ -63,7 +63,7 @@ export const Register = () => {
                     scrollToFirstError
                     >
                     <Form.Item
-                        label="Email:"
+                        label="EMAIL:"
                         name="email"
                         rules={[
                             { required: true, type: 'email' }
@@ -73,7 +73,7 @@ export const Register = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Nome:"
+                        label="NOME:"
                         name="first_name"
                         rules={[
                             { required: true }
@@ -83,7 +83,7 @@ export const Register = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Sobrenome:"
+                        label="SOBRENOME:"
                         name="last_name"
                         rules={[
                             { required: true }
@@ -93,7 +93,7 @@ export const Register = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Senha:"
+                        label="SENHA:"
                         name="password"
                         hasFeedback
                         rules={[
@@ -104,7 +104,7 @@ export const Register = () => {
                     </Form.Item>
 
                     <Form.Item
-                        label="Confirmação:"
+                        label="CONFIRMAÇÃO:"
                         name="password_confirm"
                         hasFeedback
                         dependencies={['password']}
@@ -128,7 +128,7 @@ export const Register = () => {
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
-                            Cadastre-se
+                            CADASTRE-SE
                         </Button>
                     </Form.Item>
                 </Form>
