@@ -19,54 +19,47 @@ function App() {
     const userFirstName = localStorage.getItem("first_name")
 
     if (userToken !== null && userId !== null && userFirstName !== null) {
-      setUser({
-        token: userToken,
-        user_id: userId,
-        first_name: userFirstName
+      let isLogged = false
+      
+      fetch('http://localhost:8000/', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Token ' + userToken
+        }
       })
+      .then(response => {
+        if (response.status === 200) {
+          isLogged = true
+        }
+      })
+      .then(() => {
+        if (isLogged === true) {
+          setUser({
+            token: userToken,
+            user_id: userId,
+            first_name: userFirstName
+          })
+        } else {
+          setUser()
+          localStorage.clear()
+        }
+      })
+      .catch(error => console.log(error))
     } else {
       setUser()
       localStorage.clear()
     }
   }, []);
 
-  const signIn = values => {
-    fetch('http://localhost:8000/api-token-auth/', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        email: values.email,
-        password: values.password
-      }),
-    })
-    .then(response => {
-      if (response.status === 200) {
-        return response.json()
-      } else {
-        throw new Error('Something went wrong')
-      }
-    })
-    .then(result => {
-      setUser({
-        token: result.token,
-        user_id: result.user_id,
-        first_name: result.first_name
-      })
-      localStorage.setItem('token', result.token)
-      localStorage.setItem('user_id', result.user_id)
-      localStorage.setItem('first_name', result.first_name)
-    })
-    .catch(error => console.log(error))
-  }
-
-  const logout = () => {
+  const signOut = () => {
     setUser()
     localStorage.clear()
   };
 
   return (
     <BrowserRouter>
-      <AuthContext.Provider value={{ user, signIn, logout }}>
+      <AuthContext.Provider value={{ user, setUser, signOut }}>
         <Switch>
           <Route exact path="/">
             <Main>

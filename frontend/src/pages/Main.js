@@ -12,7 +12,7 @@ const { Header, Footer, Content } = Layout;
 export const Main = props => {
 
     const [categories, setCategories] = useState([]);
-    const { user, logout } = useContext(AuthContext)
+    const { user, signOut } = useContext(AuthContext)
 
     useEffect(() => {
         listCategories()
@@ -62,7 +62,7 @@ export const Main = props => {
                 <Row justify="space-between" className="navbar-contents-margin">
                     <Col>
                         <Space direction="vertical">
-                            <Search placeholder="Buscar" allowClear onSearch={onSearch} className="navbar-width" />
+                            <Search placeholder="Buscar" allowClear onSearch={onSearch} style={{ width: 200 }} />
                         </Space>
                     </Col>
                     <Col>
@@ -101,7 +101,7 @@ export const Main = props => {
                                 <Col span={2}>
                                     |
                                 </Col>
-                                <Col span={5} className="navbar-text" onClick={logout}>
+                                <Col span={5} className="navbar-text" onClick={signOut}>
                                     SAIR
                                 </Col>
                                 <Col span={2}>
@@ -135,7 +135,14 @@ export const Main = props => {
                 </Menu>
             </Header>
             <Layout>
-                <Content className="content-style">
+                <Content
+                    style={{
+                        padding: 24,
+                        margin: 0,
+                        minHeight: 280,
+                        backgroundColor: "#FFFFFF"
+                    }}
+                >
                     {props.children}
                 </Content>
             </Layout>
