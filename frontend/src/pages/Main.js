@@ -11,7 +11,7 @@ const { Header, Footer, Content } = Layout;
 
 export const Main = props => {
 
-    const [categories, setCategories] = useState([]);
+    const [categories, setCategories] = useState([])
     const { user, signOut } = useContext(AuthContext)
 
     useEffect(() => {
@@ -40,7 +40,9 @@ export const Main = props => {
                     <Menu.SubMenu key={'sub'+categories[i].id} title={categories[i].name} style={{ fontFamily: "'Lucida Console', 'Courier New', monospace", textTransform: 'uppercase' }}>
                         {
                             categories[i].subCategories.map(subCategory => {
-                                return <Menu.Item key={subCategory.id} style={{ fontFamily: "'Lucida Console', 'Courier New', monospace", textTransform: 'uppercase' }}>{subCategory.name}</Menu.Item>
+                                return (
+                                    <Menu.Item key={subCategory.id} style={{ fontFamily: "'Lucida Console', 'Courier New', monospace", textTransform: 'uppercase' }}>{subCategory.name}</Menu.Item>
+                                )
                             })
                         }
                     </Menu.SubMenu>
@@ -107,8 +109,10 @@ export const Main = props => {
                                 <Col span={2}>
                                     |
                                 </Col>
-                                <Col span={3} className="navbar-text">
-                                    <ShoppingCartOutlined />
+                                <Col span={3}>
+                                    <Link to="/cart" className="text-color-black">
+                                        <ShoppingCartOutlined />
+                                    </Link>
                                 </Col>
                             </Row>
                         }

@@ -19,35 +19,33 @@ export const Login = () => {
     })
 
     const onFinish = values => {
-        if (user === undefined) {
-            fetch('http://localhost:8000/api-token-auth/', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({
-                    email: values.email,
-                    password: values.password
-                }),
+        fetch('http://localhost:8000/api-token-auth/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                email: values.email,
+                password: values.password
+            }),
+        })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json()
+            } else {
+                setErrorMessage('EMAIL E/OU SENHA INVÁLIDO(S)!')
+                throw new Error('Something went wrong')
+            }
+        })
+        .then(result => {
+            setUser({
+                token: result.token,
+                user_id: result.user_id,
+                first_name: result.first_name
             })
-            .then(response => {
-                if (response.status === 200) {
-                    return response.json()
-                } else {
-                    setErrorMessage('EMAIL E/OU SENHA INVÁLIDO(S)!')
-                    throw new Error('Something went wrong')
-                }
-            })
-            .then(result => {
-                setUser({
-                    token: result.token,
-                    user_id: result.user_id,
-                    first_name: result.first_name
-                })
-                localStorage.setItem('token', result.token)
-                localStorage.setItem('user_id', result.user_id)
-                localStorage.setItem('first_name', result.first_name)
-            })
-            .catch(error => console.log(error))
-        }
+            localStorage.setItem('token', result.token)
+            localStorage.setItem('user_id', result.user_id)
+            localStorage.setItem('first_name', result.first_name)
+        })
+        .catch(error => console.log(error))
     }
 
     const onFinishFailed = errorInfo => {
@@ -97,7 +95,7 @@ export const Login = () => {
                         <Input.Password prefix={<LockOutlined style={{ color: "#B3B3B3" }} className="site-form-item-icon" />} placeholder="Senha" />
                     </Form.Item>
                     {errorMessage !== null &&
-                        <Alert message={errorMessage} type="error" style={{ marginBottom: '25px' }} />
+                        <Alert message={errorMessage} type="error" showIcon style={{ marginBottom: '25px' }} />
                     }
                     <Form.Item>
                         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>

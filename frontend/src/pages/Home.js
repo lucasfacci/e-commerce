@@ -1,7 +1,8 @@
 import { React, useState, useEffect } from 'react';
+import { Link } from "react-router-dom";
 import { Col, Row } from 'antd';
 
-import { Product } from "../components/Product"
+import { ProductCard } from "../components/ProductCard"
 
 export const Home = () => {
 
@@ -28,7 +29,9 @@ export const Home = () => {
                     object.map(item => {
                         return (
                             <Col xs={24} sm={12} md={12} lg={8} xl={6} xxl={4} key={item.id}>
-                                <Product alt={item.name} src={item.image} name={item.name} price={item.price} />
+                                <Link to="/product">
+                                    <ProductCard alt={item.name} src={item.image} name={item.name} price={item.price} />
+                                </Link>
                             </Col>
                         ) 
                     })

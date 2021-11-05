@@ -2,7 +2,7 @@ import { Card } from 'antd';
 
 const { Meta } = Card;
 
-export const Product = props => {
+export const ProductCard = props => {
     return (
         <Card
             hoverable

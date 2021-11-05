@@ -6,6 +6,8 @@ import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Category } from "./pages/Category";
+import { Cart } from "./pages/Cart";
+import { Product } from "./pages/Product";
 
 export const AuthContext = createContext({});
 
@@ -79,6 +81,16 @@ function App() {
           <Route path="/category">
             <Main>
               <Category />
+            </Main>
+          </Route>
+          <Route path="/cart">
+            <Main>
+              <Cart />
+            </Main>
+          </Route>
+          <Route path="/product">
+            <Main>
+              <Product />
             </Main>
           </Route>
         </Switch>
