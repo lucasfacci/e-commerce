@@ -1,6 +1,6 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Form, Input, Button, Row, Col } from 'antd';
+import { Alert, Form, Input, Button, Row, Col } from 'antd';
 
 import { AuthContext } from "../App";
 
@@ -8,7 +8,8 @@ export const Register = () => {
 
     const [form] = Form.useForm();
     const history = useHistory();
-    const { user, signIn } = useContext(AuthContext)
+    const [errorMessage, setErrorMessage] = useState(null)
+    const { user, setUser } = useContext(AuthContext)
 
     useEffect(() => {
         if (user !== undefined) {
@@ -28,9 +29,42 @@ export const Register = () => {
                 password_confirm: values.password_confirm
             }),
         })
+        .then(response => {
+            if (response.status === 201) {
+                return response.json()
+            } else {
+                setErrorMessage('O EMAIL INSERIDO JÁ ESTÁ EM USO!')
+                throw new Error('Something went wrong')
+            }
+        })
         .then(() => {
-            signIn(values)
-            history.push('/')
+            fetch('http://localhost:8000/api-token-auth/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    email: values.email,
+                    password: values.password
+                }),
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json()
+                } else {
+                    setErrorMessage('EMAIL E/OU SENHA INVÁLIDO(S)!')
+                    throw new Error('Something went wrong')
+                }
+            })
+            .then(result => {
+                setUser({
+                    token: result.token,
+                    user_id: result.user_id,
+                    first_name: result.first_name
+                })
+                localStorage.setItem('token', result.token)
+                localStorage.setItem('user_id', result.user_id)
+                localStorage.setItem('first_name', result.first_name)
+            })
+            .catch(error => console.log(error))
         })
         .catch(error => console.log(error))
     };
@@ -117,15 +151,16 @@ export const Register = () => {
                                     if (!value || getFieldValue('password') === value) {
                                         return Promise.resolve();
                                     }
-                        
-                                    return Promise.reject(new Error('As senhas não correspondem!'));
+                                    return Promise.reject(new Error('AS SENHAS INSERIDAS NÃO CORRESPONDEM!'));
                                 },
                             }),
                         ]}
                     >
                         <Input.Password />
                     </Form.Item>
-
+                    {errorMessage !== null &&
+                        <Alert message={errorMessage} type="error" showIcon style={{ marginBottom: '25px' }} />
+                    }
                     <Form.Item>
                         <Button type="primary" htmlType="submit" style={{ width: "100%" }}>
                             CADASTRE-SE
