@@ -14,6 +14,18 @@ export const Main = props => {
     const [categories, setCategories] = useState([])
     const { user, signOut } = useContext(AuthContext)
 
+    const getCurrentSelectedKey = () => {
+        if (props.children.type.name === 'Home') {
+            return 'fixed1'
+        } else if (props.children.type.name === 'Category') {
+            return 'fixedSub1'
+        } else if (props.children.type.name === 'Contact') {
+            return 'fixed2'
+        } else {
+            return
+        }
+    }
+
     useEffect(() => {
         listCategories()
     }, [])
@@ -120,7 +132,7 @@ export const Main = props => {
                 </Row>
             </div>
             <Header style={{ background: "#FFFFFF" }}>
-                <Menu className="menu-center" mode="horizontal" defaultSelectedKeys={['fixed1']}>
+                <Menu className="menu-center" mode="horizontal" selectedKeys={[getCurrentSelectedKey()]}>
                     <Menu.Item key="fixed1">
                         <Link to="/">
                             INÍCIO
@@ -132,7 +144,7 @@ export const Main = props => {
                         }
                     </Menu.SubMenu>
                     <Menu.Item key="fixed2">
-                        <Link to="/">
+                        <Link to="/contact">
                             CONTATO
                         </Link>
                     </Menu.Item>

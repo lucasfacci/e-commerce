@@ -6,6 +6,7 @@ import { Home } from "./pages/Home";
 import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { Category } from "./pages/Category";
+import { Contact } from './pages/Contact';
 import { Cart } from "./pages/Cart";
 import { Product } from "./pages/Product";
 
@@ -81,6 +82,11 @@ function App() {
           <Route path="/category">
             <Main>
               <Category />
+            </Main>
+          </Route>
+          <Route path="/contact">
+            <Main>
+              <Contact />
             </Main>
           </Route>
           <Route path="/cart">
